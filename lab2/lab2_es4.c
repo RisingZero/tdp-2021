@@ -131,7 +131,7 @@ int decodifica(FILE *fin, FILE *fout) {
         c = getc(fin);
         if(c != EOF) {
             if (isdigit(c)) {
-                fputc((char)('0' + (c - '0' - k--)%10), fout);
+                fputc((char)('0' + (c - '0' + k--)%10), fout);
             } else if (isalpha(c)) {
                 if (isalpha(previous)) {
                     if (isupper(c)) {
