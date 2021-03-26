@@ -61,6 +61,7 @@ int main(int argc, char const *argv[])
             }
         }
         fprintf(fout,"| c:%d\n", realcounter);
+        realcounter = 0;
     }
 
     fclose(fin);
