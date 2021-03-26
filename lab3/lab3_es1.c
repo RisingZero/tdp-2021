@@ -30,7 +30,7 @@ int main(int argc, char const *argv[])
         for (linecounter = 1; linecounter <= 25; linecounter++) {
             if ((c = fgetc(fin)) != EOF) {
                 if (isPrevSpecial && !isspace(c)) {
-                    fputc(' ', fout);
+                    fputc('$', fout);
                     linecounter++;
                 } 
                 if (ispunct(c)) {
@@ -42,11 +42,11 @@ int main(int argc, char const *argv[])
                         if (c == '\n') {
                             realcounter++;
                             while (linecounter <= 25) {
-                            fprintf(fout, " ");
-                            linecounter++;
+                                fprintf(fout, " ");
+                                linecounter++;
                             }
                         } else {
-                            fputc(c,fout);
+                            fputc(c, fout);
                         }
                     } else {
                         c = (isPrevSpecial == 2) ? toupper(c) : c;
