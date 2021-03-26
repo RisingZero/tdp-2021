@@ -9,7 +9,8 @@ int main(int argc, char const *argv[])
 {
     FILE *fin, *fout;
     char c;
-    int linecounter, realcounter = 0, isPrevSpecial = 0;
+    register int linecounter, realcounter = 0;
+    int isPrevSpecial = 0;
     /*  
         linecounter: number of characters in a line of the output (max 25)
         realcounter: number of characters of the original input file written to the output
