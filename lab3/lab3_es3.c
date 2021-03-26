@@ -36,7 +36,7 @@ int main(int argc, char const *argv[])
     }
 
     if (i > 2)
-        printf("Numero massimo: %dn\nNumero minimo: %d\nNumeri scartati: %d", max, min, dropped);
+        printf("Numero massimo: %d\nNumero minimo: %d\nNumeri scartati: %d", max, min, dropped);
     else
         printf("Errore, non sono stati letti più di due numeri!");
     return 0;
