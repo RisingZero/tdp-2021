@@ -9,7 +9,7 @@ int main(int argc, char const *argv[])
 {
     FILE *fin, *fout;
     char c;
-    int linecounter, realcounter, isPrevSpecial = 0;
+    int linecounter, realcounter = 0, isPrevSpecial = 0;
     /*  
         linecounter: number of characters in a line of the output (max 25)
         realcounter: number of characters of the original input file written to the output
@@ -35,6 +35,8 @@ int main(int argc, char const *argv[])
                 } 
                 if (ispunct(c)) {
                     isPrevSpecial = (c == '.' || c == '!' || c == '?') ? 2 : 1;
+                    fputc(c, fout);
+                    realcounter++;
                 } else {
                     if (isspace(c)) {
                         if (c == '\n') {
