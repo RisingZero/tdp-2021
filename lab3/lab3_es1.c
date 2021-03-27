@@ -9,11 +9,15 @@ int main(int argc, char const *argv[])
 {
     FILE *fin, *fout;
     char c;
-    int linecounter, realcounter = 0, isPrevSpecial = 0;
+    register int linecounter, realcounter = 0;
+    int isPrevSpecial = 0;
     /*  
         linecounter: number of characters in a line of the output (max 25)
         realcounter: number of characters of the original input file written to the output
         isSpecial: flag to indicate if the last character was a punctutation character
+            1   aggiungere spazio
+            2   aggiungere maiuscola-spazio
+            3   aggiungere solo maiuscola
     */
 
     if ((fin = fopen(INPUT, "r"))  == NULL) {
@@ -29,32 +33,44 @@ int main(int argc, char const *argv[])
     while (!feof(fin)) {
         for (linecounter = 1; linecounter <= 25; linecounter++) {
             if ((c = fgetc(fin)) != EOF) {
-                if (isPrevSpecial && !isspace(c)) {
-                    fputc('$', fout);
+
+                if ((isPrevSpecial==1 || isPrevSpecial==2) && !isspace(c)) {
+                    fputc(' ', fout);
                     linecounter++;
                 } 
-                if (ispunct(c)) {
-                    isPrevSpecial = (c == '.' || c == '!' || c == '?') ? 2 : 1;
-                    fputc(c, fout);
-                    realcounter++;
-                } else {
-                    if (isspace(c)) {
-                        if (c == '\n') {
-                            realcounter++;
-                            while (linecounter <= 25) {
-                                fprintf(fout, " ");
-                                linecounter++;
-                            }
-                        } else {
-                            fputc(c, fout);
+                if (isspace(c)) {
+                    if (c == '\n') {
+                        //\n e completa la riga
+                        while (linecounter <= 25) {
+                            fprintf(fout, " ");
+                            linecounter++;
                         }
                     } else {
-                        c = (isPrevSpecial == 2) ? toupper(c) : c;
+                        //stampa spazio
+                        fputc(c, fout);
+                        //fprintf(fout, "(%d)", isPrevSpecial);
+                    }
+                    //mette maiuscolo senza spazio
+                    isPrevSpecial = (isPrevSpecial == 2) ? 3 : isPrevSpecial;
+                    //non mette lo spazio perché gia messo
+                    isPrevSpecial = (isPrevSpecial == 1) ? 0 : isPrevSpecial;
+                    realcounter++;
+                } else {
+                    if (ispunct(c)) {
+                        //punteggiatura
+                        isPrevSpecial = (c == '.' || c == '!' || c == '?') ? 2 : 1;
+                        fputc(c, fout);
+                        realcounter++;
+                    } else {
+                        //catrattere alfanuemrico
+                        c = (isPrevSpecial >=2) ? toupper(c) : c;
                         fputc((isdigit(c)) ? '*' : c, fout);
                         isPrevSpecial = 0;
+                        realcounter++;
                     }
-                    realcounter++;
                 }
+                
+                
             } else {
                 while (linecounter <= 25) {
                     fprintf(fout, " ");
