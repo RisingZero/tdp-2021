@@ -116,7 +116,7 @@ int decomprimi(FILE *fin, FILE *fout) {
     if (!feof(fin))
         previous = fgetc(fin);
     else
-        return counter; // Ritorna 0 se il file da decomprimere è vuoto
+        return 0; // Ritorna 0 se il file da decomprimere è vuoto
     
     while (!feof(fin)) {
         c = fgetc(fin);
