@@ -22,5 +22,12 @@ int mcd(x,y) {
         y ^= x;     // No need of temp variable
         x ^= y;
     }
-    return (x % y == 0) ? y : mcd(x % y, y);
+
+    if (y == 0) {
+        if (x == 0)
+            return 0;
+        return x;
+    }
+
+    return mcd(x % y, y);  // Recursive implementation
 }

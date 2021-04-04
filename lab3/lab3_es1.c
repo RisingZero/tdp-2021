@@ -4,6 +4,9 @@
 #include <ctype.h>
 #define INPUT "input.txt"
 #define OUTPUT "testo.txt"
+#define MAXLEN 25
+
+enum flagOpt {NORMAL, SPACE, CAPSPACE, CAPS}; // Valori del flag isPrevSpecial
 
 int main(int argc, char const *argv[])
 {
@@ -14,10 +17,10 @@ int main(int argc, char const *argv[])
     /*  
         linecounter: number of characters in a line of the output (max 25)
         realcounter: number of characters of the original input file written to the output
-        isSpecial: flag to indicate if the last character was a punctutation character
-            1   aggiungere spazio
-            2   aggiungere maiuscola-spazio
-            3   aggiungere solo maiuscola
+        isSpecial: flag to indicate if the last character was a punctutation character:
+            1   "SPACE"     aggiungere spazio
+            2   "CAPSPACE"  aggiungere maiuscola-spazio
+            3   "CAPS"      aggiungere solo maiuscola
     */
 
     if ((fin = fopen(INPUT, "r"))  == NULL) {
@@ -31,48 +34,49 @@ int main(int argc, char const *argv[])
     }
 
     while (!feof(fin)) {
-        for (linecounter = 1; linecounter <= 25; linecounter++) {
+        // Conto 25 caratteri per riga sul file di output
+        for (linecounter = 1; linecounter <= MAXLEN; linecounter++) {
             if ((c = fgetc(fin)) != EOF) {
 
-                if ((isPrevSpecial==1 || isPrevSpecial==2) && !isspace(c)) {
+                // Aggiungo uno spazio se il carattere precedente è un carattere di punteggiatura e non vi è già uno spazio
+                if ((isPrevSpecial == SPACE || isPrevSpecial == CAPSPACE) && !isspace(c)) {
                     fputc(' ', fout);
                     linecounter++;
                 } 
                 if (isspace(c)) {
                     if (c == '\n') {
-                        //\n e completa la riga
-                        while (linecounter <= 25) {
+                        // Completa la riga per andare a capo
+                        while (linecounter <= MAXLEN) {
                             fprintf(fout, " ");
                             linecounter++;
                         }
                     } else {
-                        //stampa spazio
+                        // Stampa spazio già presente su input
                         fputc(c, fout);
-                        //fprintf(fout, "(%d)", isPrevSpecial);
                     }
-                    //mette maiuscolo senza spazio
-                    isPrevSpecial = (isPrevSpecial == 2) ? 3 : isPrevSpecial;
-                    //non mette lo spazio perché gia messo
-                    isPrevSpecial = (isPrevSpecial == 1) ? 0 : isPrevSpecial;
+                    // Aggiorno il flag isPrevSpecial perché uno spazio è stato inserito
+                    isPrevSpecial = (isPrevSpecial == CAPSPACE) ? CAPS : isPrevSpecial;
+                    isPrevSpecial = (isPrevSpecial == SPACE) ? NORMAL : isPrevSpecial;
+
                     realcounter++;
                 } else {
                     if (ispunct(c)) {
-                        //punteggiatura
-                        isPrevSpecial = (c == '.' || c == '!' || c == '?') ? 2 : 1;
+                        // Controllo segni di punteggiatura
+                        isPrevSpecial = (c == '.' || c == '!' || c == '?') ? CAPSPACE : SPACE;
                         fputc(c, fout);
                         realcounter++;
                     } else {
                         //catrattere alfanuemrico
-                        c = (isPrevSpecial >=2) ? toupper(c) : c;
-                        fputc((isdigit(c)) ? '*' : c, fout);
-                        isPrevSpecial = 0;
+                        c = (isPrevSpecial >= CAPSPACE) ? toupper(c) : c;
+                        fputc((isdigit(c)) ? '*' : c, fout); // Sostituzione cifre con *
+                        isPrevSpecial = NORMAL; // isPrevSpecial torna al valore normale
                         realcounter++;
                     }
                 }
                 
                 
             } else {
-                while (linecounter <= 25) {
+                while (linecounter <= MAXLEN) {
                     fprintf(fout, " ");
                     linecounter++;
                 }

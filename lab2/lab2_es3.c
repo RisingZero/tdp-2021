@@ -1,6 +1,7 @@
 // LAB 2 ES 3 RAINERI ANDREA ANGELO S280848
 
 #include <stdio.h>
+#include <ctype.h>
 #define FILENAME_CHIARO "sorgente.txt"
 #define FILENAME_COMPRESSO "compresso.txt"
 #define FILENAME_DECOMPRESSO "decompresso.txt"
