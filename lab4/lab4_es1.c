@@ -7,18 +7,19 @@ void sottoSequenze(int V[], int N);
 
 int main(void)
 {
-    int numeri[MAXLEN] = {0}, i;
+    int numeri[MAXLEN] = {0}, i, N;
+
+    printf("Indicare la dimensione del vettore che si vuole inserire: ");
+    scanf("%d", &N);
 
     // Input numeri da utente
-    for (i=0; i<MAXLEN; i++) {
-        printf("Inserire elemento %d del vettore di interi: ", i);
-        while (scanf("%d", &numeri[i]) != 1) {      // Errore input non intero
-            printf("ERRORE: inserire un numero intero");
-        }
+    for (i=0; i<N; i++) {
+        printf("Inserire elemento %d del vettore di interi: ", i+1);
+        scanf("%d", &numeri[i]);
     }
 
     // Chiamata funzione
-    sottoSequenze(numeri, MAXLEN);
+    sottoSequenze(numeri, N);
     return 0;
 }
 
@@ -26,31 +27,33 @@ void sottoSequenze(int V[], int N) {
     // Funzione che visualizza tutti i sottovettori
     // di dimensione massima contenuti nel vettor V
 
-    int i, j, first, start = 0, end = 0, dimMax = 0;
+    int i, j, first, start = -1, dimMax = 0;
     int sottovettori[MAXLEN] = {0};
 
     // Scansione vettore in cerca di tutti i sottovettori
+    // sottovettori[i] = posizione finale sottovettore con posizione iniziale = i
     for (i = 0; i < N; i++) {
-        if (V[i] != 0 && start == 0)
+        if (V[i] != 0 && start == -1)
             start = i;
 
-        if (V[i] == 0) {
+        if ((V[i] == 0 || i == N-1) && start != -1) {
             if ((i - start) > dimMax)
                 dimMax = i - start;
-            sottovettori[start] = i;
-            start = 0;
+            sottovettori[start] = (i == N-1) ? i : i-1;
+            start = -1;
         }
     }
 
-    for (i = 0; i<MAXLEN; i++) {
-        if (i - sottovettori[i] == dimMax){
+    // Stampa a video dei sottovettori
+    for (i = 0; i<N; i++) {
+        if ((sottovettori[i] - i + 1) == dimMax){
             printf("[");
-            for (j = sottovettori[i], first = 0; j<i; j++, first++) {
+            for (j = i, first = 0; j<=sottovettori[i]; j++, first++) {
                 if (first > 0)
-                    pritnf(" ");
-                printf("%d");
+                    printf(" ");
+                printf("%d", V[j]);
             }
-            printf("]");
+            printf("]\n");
         }
     }
 }
