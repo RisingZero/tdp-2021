@@ -288,20 +288,12 @@ int isBetween(short firstDate[], short lastDate[], short date[]) {
      */
     enum bool {False, True};
 
-    // FIXME: errore in valutazione data. Corregere caso in cui una data abbia lo stesso mese di un estremo ma giorno fuori range
-    if (date[0] >= firstDate[0] && date[0] <= lastDate[0]) {
-        if (firstDate[0] == lastDate[0]) {
-            if (date[1] >= firstDate[1] && date[1] <= lastDate[1]) {
-                if (firstDate[1] == lastDate[1]) {
-                    if (date[2] >= firstDate[2] && date[2] <= lastDate[2])
-                        return True;
-                } else {
-                    return True;
-                }
-            }
-        } else {
-            return True;
-        }
-    }
-    return False;
+    int first = firstDate[0]*10000 + firstDate[1]*100 + firstDate[2];
+    int last = lastDate[0]*10000 + lastDate[1]*100 + lastDate[2];
+    int today = date[0]*10000 + date[1]*100 + date[2];
+
+    if (today >= first && today <= last)
+        return True;
+    else
+        return False;
 }
