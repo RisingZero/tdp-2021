@@ -158,7 +158,7 @@ void printTrip(Tratta tratta) {
         Function to print a given trip info
      */
 
-    printf("%s %s %s %hd/%hd/%hd %hd:%hd:%hd %hd:%hd:%hd Ritardo %d\n",
+    printf("%s %s %s %hd/%02hd/%02hd %02hd:%02hd:%02hd %02hd:%02hd:%02hd Ritardo %d\n",
         tratta.codice, tratta.partenza, tratta.destinazione,
         tratta.data[0], tratta.data[1], tratta.data[2],
         tratta.ora_partenza[0], tratta.ora_partenza[1], tratta.ora_partenza[2],

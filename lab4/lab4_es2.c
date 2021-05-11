@@ -48,29 +48,19 @@ int main(void)
     return 0;
 }
 
-void ruota(int v[maxN], int N, int P, int dir) {
+void ruota(int V[maxN], int N, int P, int dir) {
     /*
-        v[]:    vettore da ruotare, condiviso con la funzione chiamante
+        V[]:    vettore da ruotare, condiviso con la funzione chiamante
         N:      numero di elementi del vettore
         P:      numero di posizioni di rotazione
         dir:    direzione di rotazione {1: sinistra, -1: destra}
     */
     
-    int temp, i, iter;
+    int i, iter;
 
-    for (iter = 0; iter < P; iter++) {
-        if (dir == 1) {
-            for (i = 0; i < N-1; i++) {
-                v[i] += v[i+1];
-                v[i+1] = v[i] - v[i+1];
-                v[i] -= v[i+1];
-            }
-        } else {
-            for (i = N - 2; i >= 0; i--) {
-                v[i] += v[i+1];
-                v[i+1] = v[i] - v[i+1];
-                v[i] -= v[i+1];
-            }
+    for (int iter = 0; iter < P; iter++) {
+        for (i = (N+dir)%N-1; i != ((N-dir)%N)*dir; i = i + 1*dir) {
+            V[i] = V[i+1] + V[i] - (V[i+1] = V[i]);
         }
     }
 }
