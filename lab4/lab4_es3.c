@@ -26,6 +26,7 @@ int main(void) {
     }
 
     dimensions = leggiMatrice(fin, matrice);
+    fclose(fin);
     
     do {
         printf("Indicare dimensione delle sottomatrici da ricercare: ");

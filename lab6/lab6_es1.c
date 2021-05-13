@@ -56,6 +56,7 @@ int main(int argc, char const *argv[])
     }
 
     nTratte = letturaFile(fin, tratte);
+    fclose(fin);
 
     menuParola(tratte, nTratte);
 
