@@ -94,18 +94,17 @@ int checkDim(int matrix[MAX_ROW][MAX_COL], int nr, int nc, int i, int j, Class c
 
 void findMaxRegions(int matrix[MAX_ROW][MAX_COL], int nr, int nc) {
     Region bestRegions[CLASS_TYPES] = {0}, region = {0};
-    int i, j;
+    int i, j, top, left;
     int w, h, a;
 
     for (i = 0; i < nr; i++) {
         for (j = 0; j < nc; j++) {
             if (matrix[i][j] == black) {
+
+                top = i == 0 || matrix[i-1][j] == white;
+                left = j == 0 || matrix[i][j-1] == white;
                 // Check if the black pixel is a top-left corner type
-                if ((i == 0 && j == 0) ||
-                    (i == 0 && (j > 0 && (matrix[i][j-1] == white))) ||
-                    (j == 0 && (i > 0 && (matrix[i-1][j] == white))) ||
-                    ((i > 0 && (matrix[i-1][j] == white)) && (j > 0 && (matrix[i][j-1] == white)))
-                    ) {
+                if (top && left) {
                         region.x = i; region.y = j;
                         region.larghezza = checkDim(matrix, nr, nc, i, j, larghezza);
                         region.altezza = checkDim(matrix, nr, nc, i, j, altezza);
