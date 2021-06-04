@@ -13,7 +13,7 @@ void stampaInfo(int swap,int outIter, int totIter);
 int main(void)
 {
     FILE *fin;
-    int A[MAXLEN], S, N, i, j;
+    int A[MAXLEN], B[MAXLEN], C[MAXLEN], S, N, i, j;
 
     // Open file
     if ((fin = fopen(FILENAME, "r")) == NULL) {
@@ -29,13 +29,15 @@ int main(void)
         fscanf(fin, "%d", &N);
         for (j = 0; j < N; j++) {
             fscanf(fin, "%d", &A[j]);
+            B[j] = C[j] = A[j];
         }
-        
         InsertionSort(A, N);
-        SelectionSort(A, N);
-        ShellSort(A, N);
+        SelectionSort(B, N);
+        ShellSort(C, N);
 
     }
+
+    fclose(fin);
     return 0;
 }
 

@@ -68,6 +68,8 @@ void leggiMatrice(int mat[][NC], int maxR, int *nrp, int *ncp) {
             fscanf(fin, "%d", &mat[i][j]);
         }
     }
+
+    fclose(fin);
 }
 
 int riconosciRegione(int mat[][NC], int nr, int nc, int row, int col, int *b, int *h) {
