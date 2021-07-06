@@ -1,0 +1,143 @@
+\documentclass[11pt, a4paper, titlepage]{article}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx} 
+\usepackage{fancyhdr}
+\usepackage[margin=1in]{geometry}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Raineri - s280848}
+\lhead{Relazione Tecniche di Programmazione}
+\rfoot{\thepage}
+
+\definecolor{light-gray}{gray}{0.95}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+\begin{document}
+
+    \title{
+        \begin{figure}[t]
+            \includegraphics[width=8cm]{logo.png}
+            \centering
+        \end{figure}
+            \textbf{Relazione Tecniche di Programmazione}
+        }
+    \author{Andrea Angelo Raineri - s280848}
+    \date{3/7/21}
+    \maketitle
+
+    \section{Esercizio 4}
+
+        \subsection{Modifiche apportate alla versione di esame}
+            Nella versione finale del codice sono state apportate due modifiche:
+                \begin{itemize}
+                    \item \textbf{Line 8:} Modificata la condizione all'interno del ciclo for 
+                    affinché non si arrestasse prima di aver verificato l'ultima sottostringa 
+                    di str1 di lunghezza pari a str2.
+                      
+                        \code{for (i = 0; i < len1 - len2; i++)}
+
+                        modificato in
+
+                        \code{for (i = 0; i < len1 - len2 + 1; i++)}
+                        
+                    \item \textbf{Line 18:} Modificato valore di ritorno della funzione 
+                    nell'uscita anticipata in modo da restituire la posizione 
+                    della sottostringa identificata e non il numero di caratteri (cnt) 
+                    comuni tra le sottostringhe.
+
+                        \code{if (cnt > len2/2)
+                        return cnt;}
+
+                        modificato in
+
+                        \code{if (cnt > len2/2)
+                        return i;}
+                \end{itemize}
+        
+        \subsection{Strategia utilizzata}
+            Definite \emph{len1} e \emph{len2} rispettivamente le lunghezze di str1 e str2, l'algoritmo 
+            utilizzato ricerca all'interno di ogni sottostringa di dimensione len2 contenuta in str1 il numero
+            di caratteri combacianti con la stringa str2. Il ciclo esterno identifica ad ogni iterazione una diversa 
+            sottostringa di str1 attraverso l'indice i, il ciclo interno la confronta con la stringa str2 e salva nella
+            variabile \emph{cnt} il numero di caratteri rispettivamente uguali tra le stringhe.
+            Appena viene identificata una sottostringa compatibile, ovvero in cui il numero di caratteri corrispondenti
+            sia strettamente maggiore della metà di len2, la funzione termina anticipatamente ritornando l'indice della
+            sottostringa di str1 valida. Se non vengono identificate stringhe valide in str1 la funzione termina con un
+            valore di default (-1).
+
+        \subsection{Strutture dati utilizzate}
+            Quando viene chiamata la funzione vengono inizializzate 5 variabili di tipo \emph{int}:
+            \begin{itemize}
+                \item \textbf{int len1 len2} contenenti le dimensioni di str1 e str2, stringhe ricevute come parametri
+                durante la chiamata
+                \item \textbf{int i j} utilizzati come indici per i due cicli for
+                \item \textbf{int cnt} utilizzata per memorizzare il numero di caratteri corrispondenti durante il confronto
+                tra stringhe
+
+            \end{itemize}
+
+    \section{Esercizio 5}
+
+        \subsection{Modifiche apportate alla versione di esame}
+            \begin{itemize}
+                \item \textbf{Line 11} Modificato indice posizione durante il salvataggio delle medie nel vettore avgs
+                
+                    \code{avgs[i-j+n] += M[i][j];}
+
+                    modificato in
+
+                    \code{avgs[i-j+n-1] += M[i][j];}
+            \end{itemize}
+
+        \subsection{Strategia utilizzata}
+            L'algoritmo progettato è diviso in 3 parti principali. Vengono prima salvate all'interno del vettore avgs
+            le somme algebriche degli elementi lungo le diverse diagonali della matrice. La matrice viene scandita in
+            modo lineare elemento per elemento e sfruttando la proprietà degli elementi lungo le diagonali ricercate di
+            avere differenza tra indice di riga e di colonna costante si calcola la corretta cella del vettore avgs, ognuna
+            legata ad una delle diagonali della matrice.
+
+            Successivamente si scandisce il vettore avgs per calcolare la media aritmetica, si divide dunque ogni somma algebrica
+            precedentemente calcolata per il numero di elementi lungo la diagonale associata ad ogni cella del vettore avgs.
+
+            Infine si scandisce nuovamente il vettore avgs contenente le medie aritmetiche lungo le diagonali alla ricerca
+            del valore di media massimo, il cui valore viene poi restituito dalla funzione.
+
+        \subsection{Strutture dati utilizzate}
+            \begin{itemize}
+                \item \textbf{int i, j} utilizzati come indici per i cicli for
+                \item \textbf{float maxAvg} utilizzato per memorizzare il valore di media massimo
+                \item \textbf{float avgs[DIM]} vettore di dimensione pari a quella della matrice ricevuta in ingresso
+                utilizzato per memorizzare i valori delle medie aritmetiche lungo le diagonali della matrice al fine di
+                ricercarne poi il massimo
+            \end{itemize}
+
+    \section{Esercizio 6}
+
+        \subsection{Modifiche apportate alla versione di esame}
+            Non sono state apportate modifiche al codice (aggiunto main al fine di utilizzo completo)
+
+        \subsection{Strategia utilizzata}
+            La funzione legge il file di input ricevuto come parametro di chiamata fino a quando riesce a estrapolare
+            da esso un input significativo formato da 2 coppie di interi. Dopo aver letto le coordinate di due punti
+            l'area compresa tra essi viene salvata all'interno della matrice M, rappresentante il piano cartesiano,
+            cambiano il valore di ogni cella dell'area da 0 a 1. Nel caso in cui un'area ricopra una cella già contenente un 1 si aggiorna un contatore
+            per le intersezioni, il cui valore viene restituito dalla funzione alla fine della lettura del file.
+
+            (\emph{OSS:} Le aree sono state memorizzate all'interno della matrice in modo da rispecchiare il piano cartesiano
+            stesso)
+
+        \subsection{Strutture dati utilizzate}
+            \begin{itemize}
+                \item \textbf{int x1, x2, y1, y2} utilizzati per contenere le coordinate dei punti letti dal file di input
+                \item \textbf{int i, j} utilizzati come indici per i cicli for
+                \item \textbf{int area} contatore per il numero di intersezioni, inizializzato a 0
+                \item \textbf{int M[DIM][DIM]} matrice rappresentante il piano cartesiano, inizializzata a 0
+            \end{itemize}
+               
+\end{document}
